@@ -16,7 +16,7 @@ WIT_AI_ACCESS_TOKEN = 'JT3SXERNVLCVSECDCHN7NQE2H6EGMW6R'
 
 
 app = Flask(__name__)
-client = Wit(WIT_AI_KEY)
+client = Wit(WIT_AI_ACCESS_TOKEN)
 
 
 @app.route("/extract_text", methods=["POST"])
@@ -46,8 +46,10 @@ def extract_text_from_audio():
 
     # Извлекаем текст из аудиофайлов
     for audio_file in audio_files:
-        extracted_text += ' ' + extract_text_from_audio(client=client, audio_filename='data/' + audio_file)
-
+        print(audio_file)
+        text = extract_text_from_audio_file(wit_client=client, audio_filename='data/' + audio_file)
+        extracted_text += ' '
+        extracted_text += text
     response = app.response_class(
         response=json.dumps({
             "text": extracted_text

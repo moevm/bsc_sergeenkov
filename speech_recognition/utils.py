@@ -44,7 +44,7 @@ def split_audio(filename_prefix, segment_length=15):
     :param filename_prefix: префикс названия файла для сохранения
     :param segment_length: длина сегмента
     """
-    command = "ffmpeg -i {0} -f segment -segment_time {1} -c copy {0}segment_%03d.wav".format(
+    command = "ffmpeg -i {0}.wav -f segment -segment_time {1} -c copy {0}segment_%03d.wav".format(
         filename_prefix, segment_length
     )
     subprocess.call(command, shell=True)
@@ -63,9 +63,10 @@ def get_file_list_by_prefix(filename_prefix, path='data'):
         for file in files:
             if file.startswith(filename_prefix):
                 file_list.append(file)
+    return file_list
 
 
-def get_text_from_audio_file(wit_client, audio_filename):
+def extract_text_from_audio_file(wit_client, audio_filename):
     """
     Получить текст из аудио-файла
 
