@@ -5,18 +5,11 @@ from flask import (
 )
 
 try:
-    from .utils import *
+    from .utils import video_to_text
 except Exception as e:
-    from utils import *
-
-from wit import Wit
-
-
-WIT_AI_ACCESS_TOKEN = 'JT3SXERNVLCVSECDCHN7NQE2H6EGMW6R'
-
+    from utils import video_to_text
 
 app = Flask(__name__)
-client = Wit(WIT_AI_ACCESS_TOKEN)
 
 
 @app.route("/extract_text", methods=["POST"])
@@ -24,35 +17,10 @@ def extract_text_from_audio():
     """
     Извлечь текст из видеофайла
     """
-    extracted_text = ""
-
-    video_url = request.json['video_url']
-
-    datetime_prefix = generate_filename_prefix()
-
-    filename_prefix = 'data/' + datetime_prefix
-
-    # Скачиваем видеофайл
-    download_video(video_url=video_url, filename_prefix=filename_prefix)
-
-    # Извлекаем аудиодорожку
-    extract_sound_from_video(filename_prefix=filename_prefix)
-
-    # Разделяем аудиодорожку
-    split_audio(filename_prefix=filename_prefix)
-
-    # Получаем список файлов
-    audio_files = get_file_list_by_prefix(datetime_prefix + 'segment')
-
-    # Извлекаем текст из аудиофайлов
-    for audio_file in audio_files:
-        print(audio_file)
-        text = extract_text_from_audio_file(wit_client=client, audio_filename='data/' + audio_file)
-        extracted_text += ' '
-        extracted_text += text
+    text = video_to_text(video_url=request.json['video_url'])
     response = app.response_class(
         response=json.dumps({
-            "text": extracted_text
+            "text": text
         }),
         status=200,
         mimetype='application/json'
