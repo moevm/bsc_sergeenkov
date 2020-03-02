@@ -62,10 +62,17 @@ discussion_threads = fetch_objects('discussion-thread', discussion_thread_ids)
 discussion_proxy_ids = [discussion_thread['discussion_proxy'] for discussion_thread in discussion_threads]
 discussion_proxies = fetch_objects('discussion-proxie', discussion_proxy_ids)
 
-comment_ids = [comment for discussion_proxy in discussion_proxies for comment in discussion_proxy['discussions']]
+comment_ids = list(set([comment for discussion_proxy in discussion_proxies for comment in discussion_proxy['discussions']]))
 comments = fetch_objects('comment', comment_ids, keep_order=False)
 
+user_ids = list(set([comment['user'] for comment in comments]))
+users = fetch_objects('user', comment_ids, keep_order=False)
+
 print(len(comments))
+print(len(users))
 
 with open('data/comments.json', 'w') as file_obj:
     file_obj.write(json.dumps(comments, indent=2, ensure_ascii=False))
+
+with open('data/users.json', 'w') as file_obj:
+    file_obj.write(json.dumps(users, indent=2, ensure_ascii=False))
