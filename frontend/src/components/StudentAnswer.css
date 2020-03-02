@@ -1,0 +1,28 @@
+.student-answer {
+    display: flex;
+    margin-top: 40px;
+    padding: 10px 30px;
+    border: 1px solid #dddddd;
+    border-radius: 10px;
+    font-family: Arial;
+    width: 40%;
+}
+
+.student-answer div:first-child {
+    width: 70%;
+    margin-right: 20px;
+}
+
+.student-answer div p:first-child {
+    margin-bottom: 30px;
+}
+
+.student-answer div:last-child {
+    width: 30%;
+}
+
+.student-answer img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
