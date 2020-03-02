@@ -12,6 +12,12 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 
 import os
 
+import datetime
+from django.utils.timezone import timedelta
+
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -23,10 +29,19 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '*j)a+lw6o4$(7@u1=ot&m6nq2^%l75@+!%9sqox3axsnsf55@+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True if os.environ.get('DEBUG') == 'TRUE' else False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
+sentry_sdk.init(
+    dsn="https://2228cc68865b41f1a39f3cd02e7e24de@sentry.robotbull.com/23",
+    integrations=[DjangoIntegration()]
+)
+
+PROJECT_ENV = os.environ.get('PROJECT_ENV', 'DEV')
+
+RABBIT_URL = os.environ.get('RABBIT_URL', 'amqp://100.124.0.7:30206/%2f')
+CELERY_BROKER_URL = RABBIT_URL
 
 # Application definition
 
@@ -36,8 +51,30 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'corsheaders',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework_jwt',
+    'users',
+    'core'
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_METHODS = (
+    'GET',
+    'GET',
+    'POST',
+    'PUT',
+    'PATCH',
+    'DELETE',
+    'OPTIONS'
+)
+
+PROFILE_MODEL = {
+    'app_label': 'users',
+    'model_name': 'Profile'
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -75,8 +112,12 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': os.environ.get('DB_NAME', 'bsc_sergeenkov'),
+        'USER': os.environ.get('DB_USER', 'bsc_sergeenkov'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', 'Dev123!'),
+        'HOST': '100.124.0.7',
+        'PORT': '32605'
     }
 }
 
@@ -99,13 +140,33 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'core.pagination.StandardResultsSetPagination',
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+            'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        ),
+}
+
+JWT_AUTH = {
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_VERIFY': True,
+    'JWT_VERIFY_EXPIRATION': True,
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=90),
+    'JWT_AUTH_HEADER_PREFIX': 'JWT',
+    'JWT_PAYLOAD_HANDLER': 'users.utils.jwt_payload_handler',
+    'REFRESH_TOKEN_EXPIRATION_DELTA': datetime.timedelta(days=180)
+}
+
+# Avatar placeholder
+AVATAR_PLACEHOLDER_URL = 'https://aasciences.ac.ke/themes/custom/aas/Images/The%20GC/Default.jpg'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -118,3 +179,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+)
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static/')
+]
+
