@@ -22,10 +22,6 @@ class Comment(models.Model):
         default='student'
     )
 
-    created_on_stepik = models.DateTimeField(
-        verbose_name='Дата и время создания комментария на платформе'
-    )
-
     text = models.TextField(
         verbose_name='Текст комментария'
     )
@@ -59,6 +55,9 @@ class Comment(models.Model):
     )
 
     objects = models.Manager()
+
+    def __str__(self):
+        return self.text[:255]
 
     class Meta:
         verbose_name = 'Комментарий'

@@ -66,7 +66,7 @@ comment_ids = list(set([comment for discussion_proxy in discussion_proxies for c
 comments = fetch_objects('comment', comment_ids, keep_order=False)
 
 user_ids = list(set([comment['user'] for comment in comments]))
-users = fetch_objects('user', comment_ids, keep_order=False)
+users = fetch_objects('user', user_ids, keep_order=False)
 
 print(len(comments))
 print(len(users))

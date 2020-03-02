@@ -50,6 +50,9 @@ class StepikUser(models.Model):
 
     objects = models.Manager()
 
+    def __str__(self):
+        return self.full_name
+
     class Meta:
         verbose_name = 'Автор комментария'
         verbose_name_plural = 'Авторы комментариев'

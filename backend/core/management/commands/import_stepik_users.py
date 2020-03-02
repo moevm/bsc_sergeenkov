@@ -14,6 +14,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         with open(kwargs['json_file']) as file_obj:
             stepik_users_list = json.loads(file_obj.read())
+
         for stepik_user in stepik_users_list:
             try:
                 StepikUser.objects.create(
