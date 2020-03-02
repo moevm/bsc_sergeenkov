@@ -3,3 +3,4 @@ venv/
 *.pyc
 .idea/
 .~lock.comments_raw.csv#
+node_modules/
