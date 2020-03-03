@@ -14,7 +14,7 @@ class Question(models.Model):
     objects = models.Manager()
 
     def __str__(self):
-        return self.questions
+        return self.question
 
     class Meta:
         verbose_name = 'Вопрос'
