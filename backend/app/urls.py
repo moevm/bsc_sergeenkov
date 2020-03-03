@@ -15,11 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import include
 
 admin.site.site_header = "Система автоматизации поддержки студентов МООК"
 admin.site.site_title = "Система автоматизации поддержки студентов МООК"
 admin.site.index_title = "Система автоматизации поддержки студентов МООК"
 
 urlpatterns = [
+    path('', include('core.urls')),
     path('admin/', admin.site.urls),
 ]
