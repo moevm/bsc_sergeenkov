@@ -43,6 +43,11 @@ PROJECT_ENV = os.environ.get('PROJECT_ENV', 'DEV')
 RABBIT_URL = os.environ.get('RABBIT_URL', 'amqp://100.124.0.7:30206/%2f')
 CELERY_BROKER_URL = RABBIT_URL
 
+ELASTICSEARCH_URL = 'http://100.124.0.10:9200'
+INDEX_NAME = 'qa_index'
+ENCODER_URL = 'http://100.124.0.10:5000/encode-sentences'
+INDEX_FILE = '../indexer/index.json'
+
 # Application definition
 
 INSTALLED_APPS = [
