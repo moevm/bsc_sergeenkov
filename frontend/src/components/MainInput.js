@@ -1,54 +1,43 @@
 import React, {useState, useEffect} from "react";
 import AnswersList from './AnswersList';
 import './MainInput.css'
+import axios from 'axios';
+
+const axiosInstance = axios.create({
+    headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, PUT, POST, DELETE, OPTIONS'
+    }
+});
+
 
 export default function MainInput() {
-    const ANSWERS = [
-        {
-            id: 0,
-            username: "Konstantin Fokin",
-            url: 'stepik.com/kek',
-            text: 'танки топ танки топ танки топ танки топ танки топ танки топ танки топ танки топ танки топ танки топ',
-            avatar: require('./../assets/avatar.jpg')
-        },
-        {
-            id: 1,
-            username: "Konstantin Fokin",
-            url: 'stepik.com/kek',
-            text: 'танки не топ',
-            avatar: require('./../assets/avatar.jpg')
-        },
-    ];
-
-
     const [value, setValue] = useState(null);
     const [answers, setAnswers] = useState([]);
     const [isClicked, setIsClicked] = useState(false);
     const onChange = (e) => {
         setValue(e.target.value);
-        setIsClicked(false);
+        // setIsClicked(false);
     };
-    useEffect(() => {
+    const onClick = (e) => {
         async function fetchData() {
-            const res = await fetch("https://jsonplaceholder.typicode.com/users");
-            res
-                .json()
-                .then(res => setAnswers(res))
+            const res = await axios.post("http://127.0.01:8000/api/search-similar-questions", {
+                question: value
+            }, {crossDomain: true});
+            setAnswers(res.data);
         }
-
+    
         fetchData();
-    });
+    };
+
     return (
         <div className="main-input">
             <div className="main-input__input">
                 <input type="text" onChange={onChange}/>
-                <button onClick={event => setIsClicked(true)}>Спросить</button>
+                <button onClick={onClick}>Спросить</button>
 
             </div>
-            {(value != null && value !== "" && isClicked) ? (
-                    <AnswersList answers={answers}/>) :
-                null
-            }
+            <AnswersList answers={answers}/>
         </div>
 
     )

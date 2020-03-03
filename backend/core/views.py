@@ -43,14 +43,19 @@ def search_similar_questions(request):
         body={
             "size": 5,
             "query": script_query,
-            "_source": {"includes": ["title"]}
+            "_source": {"includes": ["title", "_id"]}
         }
     )
 
     answers = []
 
+    index = 0
+
     print("{} total hits.".format(response["hits"]["total"]["value"]))
     for hit in response["hits"]["hits"]:
+        el = hit['_source']
+        el['id'] = index
+        index += 1
         answers.append(hit['_source'])
         print("id: {}, score: {}".format(hit["_id"], hit["_score"]))
         print(hit["_source"])
