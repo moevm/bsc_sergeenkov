@@ -83,7 +83,8 @@ async def extract_text_from_audio_file(wit_client, audio_filename) -> str:
     """
     with open(audio_filename, 'rb') as audio:
         response = wit_client.speech(audio, None, {'Content-Type': 'audio/wav'})
-    return response['_text']
+        print(response)
+    return response['text']
 
 
 def clear_data_directory(path='data'):
@@ -145,7 +146,6 @@ async def video_to_text(video_url) -> str:
         #     extracted_text += ' '
         #     extracted_text += text
     finally:
-        pass
         clear_data_directory()
 
     return extracted_text.strip()
