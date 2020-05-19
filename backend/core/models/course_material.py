@@ -7,6 +7,11 @@ class CourseMaterial(models.Model):
         default=0
     )
 
+    lesson_name = models.CharField(
+        verbose_name='Название урока',
+        max_length=255
+    )
+
     section_id = models.PositiveIntegerField(
         verbose_name='Идентификатор раздела',
         default=0
@@ -40,4 +45,4 @@ class CourseMaterial(models.Model):
     objects = models.Manager()
 
     def __str__(self):
-        return f"Раздел {self.section_id}, урок {self.lesson_id}, степ {self.step_id}, {self.type}"
+        return f"{self.lesson_name}: Раздел {self.section_id}, урок {self.lesson_id}, степ {self.step_id}, {self.type}"
