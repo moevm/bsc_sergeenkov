@@ -42,7 +42,17 @@ class CourseMaterial(models.Model):
         verbose_name='Текст урока'
     )
 
+    created_at = models.DateTimeField(
+        verbose_name='Дата и время создания',
+        auto_now_add=True
+    )
+
     objects = models.Manager()
 
     def __str__(self):
-        return f"{self.lesson_name}: Раздел {self.section_id}, урок {self.lesson_id}, степ {self.step_id}, {self.type}"
+        return f"{self.lesson_name}: Раздел {self.section_id}, урок {self.lesson_id}, степ {self.step_id}, {self.material_type}"
+
+    class Meta:
+        verbose_name = 'Материал курса'
+        verbose_name_plural = 'Материалы курса'
+        ordering = ['created_at']
