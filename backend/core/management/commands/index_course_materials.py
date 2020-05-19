@@ -41,6 +41,12 @@ class Command(BaseCommand):
                 'content': text,
                 'content_vector': text_vectors[i],
                 'django_id': str(course_materials[i].id),
+                'course_id': course_materials[i].course_id,
+                'lesson_name': course_materials[i].lesson_name,
+                'section_id': course_materials[i].section_id,
+                'lesson_id': course_materials[i].lesson_id,
+                'step_id': course_materials[i].step_id,
+                'url': course_materials[i].stepik_link,
                 '_op_type': 'index',
                 '_index': settings.COURSE_MATERIALS_INDEX_NAME
             })

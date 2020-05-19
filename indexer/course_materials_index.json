@@ -18,6 +18,27 @@
       },
       "django_id": {
         "type": "text"
+      },
+      "course_id": {
+        "type": "integer"
+      },
+      "lesson_name": {
+        "type": "text"
+      },
+      "section_id": {
+        "type": "integer"
+      },
+      "lesson_id": {
+        "type": "integer"
+      },
+      "step_id": {
+        "type": "integer"
+      },
+      "url": {
+        "type": "text"
+      },
+      "material_type": {
+        "type": "text"
       }
     }
   }

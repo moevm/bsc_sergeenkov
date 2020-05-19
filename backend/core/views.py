@@ -43,7 +43,58 @@ def search_similar_questions(request):
         body={
             "size": 5,
             "query": script_query,
-            "_source": {"includes": ["title", "_id"]}
+            "_source": {"includes": ["title", "_id", "django_id"]}
+        }
+    )
+
+    answers = []
+
+    index = 0
+
+    print("{} total hits.".format(response["hits"]["total"]["value"]))
+    for hit in response["hits"]["hits"]:
+        el = hit['_source']
+        el['id'] = index
+        index += 1
+        answers.append(hit['_source'])
+        print("id: {}, score: {}".format(hit["_id"], hit["_score"]))
+        print(hit["_source"])
+        print()
+
+    return Response(answers, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny, ])
+def search_course_materials(request):
+    client = Elasticsearch(settings.ELASTICSEARCH_URL)
+    query_vector = get_sentence_vector(request.data['question'])
+
+    script_query = {
+        "script_score": {
+            "query": {"match_all": {}},
+            "script": {
+                "source": "cosineSimilarity(params.query_vector, doc['content_vector']) + 1.0",
+                "params": {"query_vector": query_vector}
+            }
+        }
+    }
+
+    response = client.search(
+        index=settings.COURSE_MATERIALS_INDEX_NAME,
+        body={
+            "size": 5,
+            "query": script_query,
+            "_source": {"includes": [
+                "content",
+                "_id",
+                "django_id",
+                "course_id",
+                "lesson_name",
+                "lesson_id",
+                "step_id",
+                "url"
+            ]}
         }
     )
 
