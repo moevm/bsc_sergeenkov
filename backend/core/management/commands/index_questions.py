@@ -36,9 +36,11 @@ class Command(BaseCommand):
         elastic_requests = []
 
         for i, question in enumerate(question_texts):
+            print(f'Appending {question}')
             elastic_requests.append({
                 'title': question,
                 'title_vector': title_vectors[i],
+                'django_id': str(questions[i].id),
                 '_op_type': 'index',
                 '_index': settings.INDEX_NAME
             })

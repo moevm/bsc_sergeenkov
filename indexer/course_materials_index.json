@@ -9,10 +9,10 @@
       "enabled": "true"
     },
     "properties": {
-      "title": {
+      "content": {
         "type": "text"
       },
-      "title_vector": {
+      "content_vector": {
         "type": "dense_vector",
         "dims": 512
       },

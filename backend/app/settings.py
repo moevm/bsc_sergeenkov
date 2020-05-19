@@ -45,8 +45,10 @@ CELERY_BROKER_URL = RABBIT_URL
 
 ELASTICSEARCH_URL = 'http://100.124.0.10:9200'
 INDEX_NAME = 'qa_index'
+COURSE_MATERIALS_INDEX_NAME = 'course_materials_index'
 ENCODER_URL = 'http://100.124.0.10:5000/encode-sentences'
 INDEX_FILE = '../indexer/index.json'
+COURSE_MATERIALS_INDEX_FILE = '../indexer/course_materials_index.json'
 
 # Application definition
 
