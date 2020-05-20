@@ -56,7 +56,16 @@ def search_similar_questions(request):
         el = hit['_source']
         el['id'] = index
         index += 1
-        answers.append(hit['_source'])
+        answer = hit['_source']
+        answer.update({
+            'score': round(hit["_score"], 1),
+            'user': {
+                'fullname': 'Иван Иванов',
+                'avatar': 'https://sun6-13.userapi.com/GzeOxk5ZZywlZlNOXvF7NCUd7tG69Pv6dXLg8w/U1lYMf98a_c.jpg?ava=1'
+            },
+            'answer': 'Текст ответа блаблаблаблабла'
+        })
+        answers.append(answer)
         print("id: {}, score: {}".format(hit["_id"], hit["_score"]))
         print(hit["_source"])
         print()
@@ -107,9 +116,23 @@ def search_course_materials(request):
         el = hit['_source']
         el['id'] = index
         index += 1
-        answers.append(hit['_source'])
+        answer = hit['_source']
+        answer.update({'score': round(hit["_score"], 1)})
+        answers.append(answer)
         print("id: {}, score: {}".format(hit["_id"], hit["_score"]))
         print(hit["_source"])
         print()
 
     return Response(answers, status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny, ])
+def mark_material_as_answer(request):
+    return Response(status=status.HTTP_200_OK)
+
+
+@api_view(['POST'])
+@permission_classes([AllowAny, ])
+def ask_question_manual(request):
+    return Response(status=status.HTTP_200_OK)
