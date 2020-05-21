@@ -52,6 +52,8 @@ COURSE_MATERIALS_INDEX_FILE = '../indexer/course_materials_index.json'
 
 STEPIK_CLIENT_ID = 'qkK7TLMjWPyNagYoYctrOV0bkcQxVHsVpxWBktVg'
 STEPIK_CLIENT_SECRET = 'Kay58mj8nAN752D23VcHOOJhH0FTJSaj6TFRFbwU4OHm7VQv2vKI25LFMsZIc5tytFWk11xxAhQ82Gw6JCWLrLLm9iMenrBHHkFcgvnxfJUm5doq95qeZ8tqdhwRjfeR'
+STEPIK_TOKEN_URL = 'https://stepik.org/oauth2/token/'
+STEPIK_GET_USER_URL = 'https://stepik.org/api/stepics/1'
 STEPIK_REDIRECT_URL = os.environ.get('STEPIK_REDIRECT_URL', 'http://localhost:3000/redirect')
 
 # Application definition

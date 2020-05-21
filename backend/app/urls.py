@@ -23,5 +23,6 @@ admin.site.index_title = "Система автоматизации поддер
 
 urlpatterns = [
     path('', include('core.urls')),
+    path('', include('users.urls')),
     path('admin/', admin.site.urls),
 ]
