@@ -50,6 +50,10 @@ ENCODER_URL = 'http://100.124.0.10:5000/encode-sentences'
 INDEX_FILE = '../indexer/index.json'
 COURSE_MATERIALS_INDEX_FILE = '../indexer/course_materials_index.json'
 
+STEPIK_CLIENT_ID = 'qkK7TLMjWPyNagYoYctrOV0bkcQxVHsVpxWBktVg'
+STEPIK_CLIENT_SECRET = 'Kay58mj8nAN752D23VcHOOJhH0FTJSaj6TFRFbwU4OHm7VQv2vKI25LFMsZIc5tytFWk11xxAhQ82Gw6JCWLrLLm9iMenrBHHkFcgvnxfJUm5doq95qeZ8tqdhwRjfeR'
+STEPIK_REDIRECT_URL = os.environ.get('STEPIK_REDIRECT_URL', 'http://localhost:3000/redirect')
+
 # Application definition
 
 INSTALLED_APPS = [
